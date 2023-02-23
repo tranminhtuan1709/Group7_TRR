@@ -1,27 +1,17 @@
 #include <iostream>
 using namespace std;
 
-int binarySearch(int arr[], int n, int left, int right, int key)
-{
-    int mid = (left + right) / 2;
-    while (right >= left)
-    {
-        if (arr[mid] == key)
-        {
-            return mid;
-        }
-        else if (arr[mid] > key)
-        {
-            return binarySearch(arr, n, left, mid - 1, key);
-        }
-        else
-        {
-            return binarySearch(arr, n, mid + 1, right, key);
+int binarySearch(int arr[], int left, int right, int key) {
+	while (left <= right) {
+        int mid = left + (right-left)/2;
+        if (key < arr[mid]) {
+            right = mid - 1;
+        } 
+        else {
+            left = mid + 1;
         }
     }
-    if (arr[left] == key)
-        return left;
-    return -1;
+    return left;
 }
 
 int main()
