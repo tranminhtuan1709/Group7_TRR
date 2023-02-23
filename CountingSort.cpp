@@ -1,68 +1,37 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstring>
 
 using namespace std;
 
+int n;
+int a[100005];
+int frequency[100005];
+int res[100005];
+int maxN = -1;
+int minN = 1e9;
 
-void counting_sort(int a[], int n)
+void CountingSort()
 {
-
-    int output[n];
-    int MAX = a[0];
-    int MIN = a[0];
-
-    for(int i = 1; i < n; i++)
+    for (int i = minN + 1; i <= maxN; i++) frequency[i] += frequency[i - 1];
+    for (int i = 0; i < n; i++)
     {
-        if(a[i] > MAX)
-            MAX = a[i];
-        else if(a[i] < MIN)
-            MIN = a[i];
+        res[frequency[a[i]]] = a[i];
+        frequency[a[i]]--;
     }
-
-    int k = MAX - MIN + 1; //kich co input
-
-    map<int, int> count_arr; //co the thay bang = int count_arr[k] neu input la so khong am
-
-    for(int i = 0; i < n; i++)
-        count_arr[a[i] - MIN]++; //dem so lan xuat hien cua cac gia tri trong day
-    for(int i = 1; i < k; i++)
-        count_arr[i] += count_arr[i - 1];  //tim upperbound (vi tri gia tri stop xuat hien) cua cac gia tri trong mang sap xep tang dan 
-
-
-
-    for(int i = 0; i < n; i++)
-    {
-        output[count_arr[a[i] - MIN] - 1] = a[i];
-        count_arr[a[i] - MIN]--;
-    }
-
-
-    for(int i = 0; i < n; i++)
-        a[i] = output[i];
-
 }
-
-
 
 int main()
 {
-    cout<<"Nhap so phan tu: "<<endl;
-    int n;
-    cin>>n;
-    int a[n];
-    cout<<"Nhap day so: "<<endl;
-    for(int i = 0; i < n; i++){
-        cin>>a[i];
+    cin >> n;
+    memset(frequency, 0, sizeof(frequency));
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+        frequency[a[i]]++;
+        maxN = max(maxN, a[i]);
+        minN = min(minN, a[i]);
     }
-    cout<<"Array: ";
-    for(int i = 0; i < n; i++){
-        cout << a[i] << " ";
-    }
-    cout<<endl;
-
-    counting_sort(a, n);
-    cout << "Sorted Array : ";
-    for(int i = 0; i < n; i++){
-        cout << a[i] << " ";
-    }
+    CountingSort();
+    for (int i = 1; i <= n; i++) cout << res[i] << ' ';
     return 0;
 }
