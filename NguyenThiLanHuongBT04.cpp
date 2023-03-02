@@ -27,6 +27,6 @@ void inverse(int a, int m){
 int main(){
     int a, b;
     cin >> a>> b ;
-    inverse()
+    inverse(a,b) ;
 
 }
